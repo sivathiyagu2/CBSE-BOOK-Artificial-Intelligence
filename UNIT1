@@ -1,5 +1,7 @@
 Unit 1 INTRODUCTION TO AI
+
 Project 1: Creating a Basic Chatbot
+
 A chatbot is an AI application designed to simulate conversation with human users. This project will guide you through creating a basic rule-based chatbot using Python.
 Step-by-Step Guide:
 Set Up the Environment:
@@ -47,3 +49,49 @@ if __name__ == "__main__":
     chatbot()
 
 python chatbot.py
+
+
+Project 2: Image Recognition Using Pretrained Models
+Image recognition involves identifying objects or features within an image. This project uses a pretrained model to classify images.
+
+Step-by-Step Guide:
+
+pip install tensorflow keras numpy matplotlib
+
+Import Libraries:
+
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input, decode_predictions
+import numpy as np
+import matplotlib.pyplot as plt
+
+Load the Pretrained Model:
+model = ResNet50(weights='imagenet')
+
+Load and Preprocess the Image:
+img_path = 'path_to_your_image.jpg'  # Replace with the path to your image
+img = image.load_img(img_path, target_size=(224, 224))
+img_array = image.img_to_array(img)
+img_array = np.expand_dims(img_array, axis=0)
+img_array = preprocess_input(img_array)
+
+Make Predictions:
+predictions = model.predict(img_array)
+decoded_predictions = decode_predictions(predictions, top=3)[0]
+
+for i, (imagenet_id, label, score) in enumerate(decoded_predictions):
+    print(f"{i+1}: {label} ({score:.2f})")
+
+Display the Image and Predictions:
+
+plt.imshow(img)
+plt.axis('off')
+plt.title("Predictions:")
+for i, (imagenet_id, label, score) in enumerate(decoded_predictions):
+    plt.text(0, 250 + i*20, f"{i+1}: {label} ({score:.2f})", color='red')
+plt.show()
+
+Run the Script:
+python image_recognition.py
+
