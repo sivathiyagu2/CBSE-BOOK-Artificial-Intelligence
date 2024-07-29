@@ -95,3 +95,42 @@ plt.show()
 Run the Script:
 python image_recognition.py
 
+
+Exercise 1: Data Cleaning
+Objective: Learn how to clean and preprocess a dataset using Python and pandas.
+
+pip install pandas numpy
+
+Import Libraries:
+import pandas as pd
+import numpy as np
+
+Load the Dataset:
+df = pd.read_csv('path_to_your_dataset.csv')  # Replace with the path to your dataset
+
+Inspect the Dataset:
+print(df.head())
+print(df.info())
+
+Handle Missing Values
+
+Identify Missing Values:
+print(df.isnull().sum())
+
+Fill Missing Values:
+df.fillna(df.mean(), inplace=True)
+
+Drop Rows with Missing Values:
+df.dropna(inplace=True)
+
+Normalize Data:
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+df_scaled = scaler.fit_transform(df)
+df_scaled = pd.DataFrame(df_scaled, columns=df.columns)
+
+Save the Cleaned Dataset:
+df_scaled.to_csv('cleaned_dataset.csv', index=False)
+
+
