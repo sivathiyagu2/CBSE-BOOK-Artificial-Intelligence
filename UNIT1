@@ -202,3 +202,57 @@ print(recommendations)
 Creating a Basic Image Classifier
 An image classifier identifies the category of an object in an image.
 
+pip install tensorflow keras numpy matplotlib
+
+Import Libraries:
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input, decode_predictions
+import numpy as np
+import matplotlib.pyplot as plt
+
+Load the Pretrained Model:
+model = ResNet50(weights='imagenet')
+
+Load and Preprocess the Image:
+img_path = 'path_to_your_image.jpg'
+img = image.load_img(img_path, target_size=(224, 224))
+img_array = image.img_to_array(img)
+img_array = np.expand_dims(img_array, axis=0)
+img_array = preprocess_input(img_array)
+
+Make Predictions:
+predictions = model.predict(img_array)
+decoded_predictions = decode_predictions(predictions, top=3)[0]
+
+for i, (imagenet_id, label, score) in enumerate(decoded_predictions):
+    print(f"{i+1}: {label} ({score:.2f})")
+
+Display the Image and Predictions:
+plt.imshow(img)
+plt.axis('off')
+plt.title("Predictions:")
+for i, (imagenet_id, label, score) in enumerate(decoded_predictions):
+    plt.text(0, 250 + i*20, f"{i+1}: {label} ({score:.2f})", color='red')
+plt.show()
+
+
+Analyzing Sentiments Using NLP
+Sentiment analysis determines the sentiment expressed in a piece of text (positive, negative, neutral). 
+pip install nltk
+
+Import Libraries:
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+Download NLTK Data:
+nltk.download('vader_lexicon')
+
+Initialize the Sentiment Analyzer:
+sia = SentimentIntensityAnalyzer()
+
+Analyze Sentiment of a Sentence:
+sentence = "NLTK is a great library for NLP!"
+sentiment = sia.polarity_scores(sentence)
+print(sentiment)
+
