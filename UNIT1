@@ -432,4 +432,59 @@ filter = np.array([[0, 1], [-1, 0]])  # Example filter
 processed_image = np.dot(image, filter)
 print("Processed Image:\n", processed_image)
 
+Skill Improvement: Set Operations Using Python Libraries
+Using Python's Built-in Set Functions
+Basic Set Operations:
+# Define sets
+A = {1, 2, 3}
+B = {3, 4, 5}
+
+# Union
+union_set = A | B
+print("Union:", union_set)
+
+# Intersection
+intersection_set = A & B
+print("Intersection:", intersection_set)
+
+# Complement (difference in Python)
+complement_set = A - B
+print("Complement of A relative to B:", complement_set)
+
+Example Applications in Data Cleaning:
+import pandas as pd
+
+# Sample DataFrames
+df1 = pd.DataFrame({'customer_id': [1, 2, 3, 4]})
+df2 = pd.DataFrame({'customer_id': [3, 4, 5, 6]})
+
+# Convert columns to sets
+set1 = set(df1['customer_id'])
+set2 = set(df2['customer_id'])
+
+# Find common customers (intersection)
+common_customers = set1 & set2
+print("Common customers:", common_customers)
+
+# Find unique customers in df1 (difference)
+unique_to_df1 = set1 - set2
+print("Unique to df1:", unique_to_df1)
+
+Handling Missing Values:
+# Sample DataFrame with missing values
+df = pd.DataFrame({'A': [1, 2, None, 4], 'B': [None, 2, 3, 4]})
+
+# Find rows with missing values in any column
+missing_indices = set(df[df.isnull().any(axis=1)].index)
+print("Rows with missing values:", missing_indices)
+
+Merging Datasets:
+# Sample DataFrames
+df1 = pd.DataFrame({'customer_id': [1, 2, 3], 'name': ['Alice', 'Bob', 'Charlie']})
+df2 = pd.DataFrame({'customer_id': [3, 4, 5], 'name': ['Charlie', 'David', 'Eve']})
+
+# Merge DataFrames using set intersection
+merged_df = pd.merge(df1, df2, on='customer_id', how='inner')
+print("Merged DataFrame on common customers:\n", merged_df)
+
 
