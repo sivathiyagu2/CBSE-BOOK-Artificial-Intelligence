@@ -160,3 +160,45 @@ Plot Scatter Plots:
 sns.pairplot(df)
 plt.show()
 
+
+Building a Simple Recommender System
+A recommender system suggests items to users based on their preferences and behavior.
+
+pip install numpy pandas scikit-learn
+
+Import Libraries:
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics import mean_squared_error
+
+Load the Dataset:
+df = pd.read_csv('path_to_movielens_dataset.csv')
+
+Preprocess the Data:
+# Pivot the data to create a user-item matrix
+user_movie_matrix = df.pivot(index='userId', columns='movieId', values='rating')
+# Fill NaN values with 0
+user_movie_matrix.fillna(0, inplace=True)
+
+Compute Similarity Matrix:
+similarity_matrix = cosine_similarity(user_movie_matrix)
+
+Build the Recommender System:
+def recommend_movies(user_id, num_recommendations):
+    user_index = user_id - 1
+    similar_users = similarity_matrix[user_index]
+    # Get the top similar users
+    similar_users_index = similar_users.argsort()[::-1][1:num_recommendations+1]
+    # Get the movies these users liked
+    recommended_movies = user_movie_matrix.iloc[similar_users_index].mean(axis=0).sort_values(ascending=False)
+    return recommended_movies.head(num_recommendations)
+
+# Recommend movies for user with ID 1
+recommendations = recommend_movies(1, 5)
+print(recommendations)
+
+Creating a Basic Image Classifier
+An image classifier identifies the category of an object in an image.
+
