@@ -133,4 +133,30 @@ df_scaled = pd.DataFrame(df_scaled, columns=df.columns)
 Save the Cleaned Dataset:
 df_scaled.to_csv('cleaned_dataset.csv', index=False)
 
+Exercise 2: Data Visualization
+Objective: Learn how to visualize data to gain insights using Python and matplotlib.
+
+pip install pandas matplotlib seaborn
+
+Import Libraries:
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+Load the Dataset:
+df = pd.read_csv('cleaned_dataset.csv')
+
+Plot Histograms:
+df.hist(figsize=(10, 8))
+plt.show()
+
+Create a Correlation Matrix:
+corr_matrix = df.corr()
+plt.figure(figsize=(12, 10))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+plt.show()
+
+Plot Scatter Plots:
+sns.pairplot(df)
+plt.show()
 
