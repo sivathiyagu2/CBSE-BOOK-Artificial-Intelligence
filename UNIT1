@@ -487,4 +487,473 @@ df2 = pd.DataFrame({'customer_id': [3, 4, 5], 'name': ['Charlie', 'David', 'Eve'
 merged_df = pd.merge(df1, df2, on='customer_id', how='inner')
 print("Merged DataFrame on common customers:\n", merged_df)
 
+Skill Improvement: Using Statistical Libraries in Python
+Using SciPy and Statsmodels for Calculations and Visualizations
+SciPy:
+SciPy is a Python library used for scientific and technical computing. It provides modules for statistics, optimization, integration, and more.
+
+Statsmodels:
+Statsmodels is a Python library that provides classes and functions for the estimation of statistical models, performing statistical tests, and data exploration.
+
+Example Code:
+
+Calculating Measures of Central Tendency:
+import numpy as np
+from scipy import stats
+
+data = [1, 2, 2, 3, 4, 5, 5, 5, 6, 7]
+
+# Mean
+mean = np.mean(data)
+print("Mean:", mean)
+
+# Median
+median = np.median(data)
+print("Median:", median)
+
+# Mode
+mode = stats.mode(data)
+print("Mode:", mode.mode[0])
+
+Calculating Measures of Dispersion:
+# Range
+data_range = np.ptp(data)
+print("Range:", data_range)
+
+# Variance
+variance = np.var(data)
+print("Variance:", variance)
+
+# Standard Deviation
+std_dev = np.std(data)
+print("Standard Deviation:", std_dev)
+
+Probability Calculations:
+# Basic Probability Example
+from fractions import Fraction
+
+favorable_outcomes = 1  # e.g., probability of rolling a 6 on a die
+total_outcomes = 6
+probability = Fraction(favorable_outcomes, total_outcomes)
+print("Probability of rolling a 6:", float(probability))
+
+Visualizing Data:
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Histogram
+plt.hist(data, bins=5, edgecolor='black')
+plt.title('Histogram')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.show()
+
+# Box Plot
+sns.boxplot(data)
+plt.title('Box Plot')
+plt.show()
+
+# Scatter Plot
+x = np.arange(len(data))
+y = data
+plt.scatter(x, y)
+plt.title('Scatter Plot')
+plt.xlabel('Index')
+plt.ylabel('Value')
+plt.show()
+
+Visualization Techniques
+Bar Graphs:
+
+Used to display categorical data with rectangular bars.
+The length of each bar represents the value of the category.
+Effective for comparing different groups or categories.
+Example:
+
+import matplotlib.pyplot as plt
+
+categories = ['A', 'B', 'C']
+values = [10, 20, 15]
+
+plt.bar(categories, values, color='skyblue')
+plt.title('Bar Graph')
+plt.xlabel('Category')
+plt.ylabel('Value')
+plt.show()
+
+Histograms:
+data = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]
+
+plt.hist(data, bins=5, edgecolor='black', color='lightgreen')
+plt.title('Histogram')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.show()
+
+Scatter Plots:
+x = [1, 2, 3, 4, 5]
+y = [5, 7, 8, 5, 6]
+
+plt.scatter(x, y, color='red')
+plt.title('Scatter Plot')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.show()
+
+Matplotlib Example:
+import matplotlib.pyplot as plt
+
+# Line Plot
+x = [1, 2, 3, 4, 5]
+y = [2, 3, 5, 7, 11]
+plt.plot(x, y, marker='o')
+plt.title('Line Plot')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.show()
+
+Seaborn Example:
+import seaborn as sns
+import pandas as pd
+
+# Sample DataFrame
+data = pd.DataFrame({
+    'x': [1, 2, 3, 4, 5],
+    'y': [2, 3, 5, 7, 11]
+})
+
+# Seaborn Line Plot
+sns.lineplot(x='x', y='y', data=data)
+plt.title('Seaborn Line Plot')
+plt.show()
+
+Bar Graph Exercise:
+categories = ['Electronics', 'Clothing', 'Home']
+sales = [120, 80, 150]
+
+plt.bar(categories, sales, color='orange')
+plt.title('Product Sales by Category')
+plt.xlabel('Category')
+plt.ylabel('Number of Products Sold')
+plt.show()
+
+Histogram Exercise:
+scores = [55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
+
+plt.hist(scores, bins=5, edgecolor='black', color='purple')
+plt.title('Distribution of Test Scores')
+plt.xlabel('Score')
+plt.ylabel('Frequency')
+plt.show()
+
+Scatter Plot Exercise:
+advertising_spend = [500, 600, 700, 800, 900]
+sales_revenue = [2000, 2200, 2400, 2600, 2800]
+
+plt.scatter(advertising_spend, sales_revenue, color='blue')
+plt.title('Advertising Spend vs. Sales Revenue')
+plt.xlabel('Advertising Spend ($)')
+plt.ylabel('Sales Revenue ($)')
+plt.show()
+
+Demonstrate PCA Using Python Libraries (Scikit-learn)
+Installing Scikit-learn:
+pip install scikit-learn
+
+PCA Implementation:
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_iris
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Standardize the data
+from sklearn.preprocessing import StandardScaler
+X_standardized = StandardScaler().fit_transform(X)
+
+# Apply PCA
+pca = PCA(n_components=2)  # Reduce to 2 dimensions for visualization
+principal_components = pca.fit_transform(X_standardized)
+
+# Plot the results
+plt.figure(figsize=(8, 6))
+plt.scatter(principal_components[:, 0], principal_components[:, 1], c=y, cmap='viridis', edgecolor='k', s=100)
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('PCA of Iris Dataset')
+plt.colorbar()
+plt.show()
+
+Skill Improvement: Implementing Linear Regression Using Python Libraries
+
+pip install scikit-learn
+
+Linear Regression Implementation:
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Sample data
+X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)  # Independent variable
+y = np.array([2, 3, 5, 6, 8])  # Dependent variable
+
+# Create and fit the model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predictions
+y_pred = model.predict(X)
+
+# Model parameters
+slope = model.coef_[0]
+intercept = model.intercept_
+
+print("Slope:", slope)
+print("Intercept:", intercept)
+
+# Evaluation metrics
+mse = mean_squared_error(y, y_pred)
+r2 = r2_score(y, y_pred)
+
+print("Mean Squared Error:", mse)
+print("R-squared:", r2)
+
+# Plotting the results
+plt.scatter(X, y, color='blue', label='Actual data')
+plt.plot(X, y_pred, color='red', label='Fitted line')
+plt.title('Linear Regression')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+
+Analyzing Bias in Data:
+import pandas as pd
+
+# Load dataset
+data = pd.read_csv('example_dataset.csv')
+
+# Check for representation
+print(data['demographic_column'].value_counts())
+
+# Visualize potential bias
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.countplot(x='demographic_column', hue='target_column', data=data)
+plt.title('Bias Analysis')
+plt.show()
+
+Implementing Fairness Constraints:
+from sklearn.linear_model import LogisticRegression
+from fairlearn.reductions import ExponentiatedGradient, DemographicParity
+
+# Load dataset
+X = data.drop(columns='target_column')
+y = data['target_column']
+
+# Train model with fairness constraint
+estimator = LogisticRegression()
+constraint = DemographicParity()
+mitigator = ExponentiatedGradient(estimator, constraints=constraint)
+mitigator.fit(X, y, sensitive_features=data['demographic_column'])
+
+# Evaluate model
+predictions = mitigator.predict(X)
+print("Fairness Metrics:", mitigator.fairness_metric())
+
+
+Skill Improvement: Set Operations Using Python Libraries
+Using Python's Built-in Set Functions
+Basic Set Operations:
+# Define sets
+A = {1, 2, 3}
+B = {3, 4, 5}
+
+# Union
+union_set = A | B
+print("Union:", union_set)
+
+# Intersection
+intersection_set = A & B
+print("Intersection:", intersection_set)
+
+# Complement (difference in Python)
+complement_set = A - B
+print("Complement of A relative to B:", complement_set)
+
+Example Applications in Data Cleaning:
+import pandas as pd
+
+# Sample DataFrames
+df1 = pd.DataFrame({'customer_id': [1, 2, 3, 4]})
+df2 = pd.DataFrame({'customer_id': [3, 4, 5, 6]})
+
+# Convert columns to sets
+set1 = set(df1['customer_id'])
+set2 = set(df2['customer_id'])
+
+# Find common customers (intersection)
+common_customers = set1 & set2
+print("Common customers:", common_customers)
+
+# Find unique customers in df1 (difference)
+unique_to_df1 = set1 - set2
+print("Unique to df1:", unique_to_df1)
+
+Handling Missing Values:
+# Sample DataFrame with missing values
+df = pd.DataFrame({'A': [1, 2, None, 4], 'B': [None, 2, 3, 4]})
+
+# Find rows with missing values in any column
+missing_indices = set(df[df.isnull().any(axis=1)].index)
+print("Rows with missing values:", missing_indices)
+
+Merging Datasets:
+# Sample DataFrames
+df1 = pd.DataFrame({'customer_id': [1, 2, 3], 'name': ['Alice', 'Bob', 'Charlie']})
+df2 = pd.DataFrame({'customer_id': [3, 4, 5], 'name': ['Charlie', 'David', 'Eve']})
+
+# Merge DataFrames using set intersection
+merged_df = pd.merge(df1, df2, on='customer_id', how='inner')
+print("Merged DataFrame on common customers:\n", merged_df)
+
+Skill Improvement: Using Statistical Libraries in Python
+Using SciPy and Statsmodels for Calculations and Visualizations
+SciPy:
+SciPy is a Python library used for scientific and technical computing. It provides modules for statistics, optimization, integration, and more.
+
+Example Code:
+
+Calculating Measures of Central Tendency:
+import numpy as np
+from scipy import stats
+
+data = [1, 2, 2, 3, 4, 5, 5, 5, 6, 7]
+
+# Mean
+mean = np.mean(data)
+print("Mean:", mean)
+
+# Median
+median = np.median(data)
+print("Median:", median)
+
+# Mode
+mode = stats.mode(data)
+print("Mode:", mode.mode[0])
+
+Calculating Measures of Dispersion:
+# Range
+data_range = np.ptp(data)
+print("Range:", data_range)
+
+# Variance
+variance = np.var(data)
+print("Variance:", variance)
+
+# Standard Deviation
+std_dev = np.std(data)
+print("Standard Deviation:", std_dev)
+
+Probability Calculations:
+# Basic Probability Example
+from fractions import Fraction
+
+favorable_outcomes = 1  # e.g., probability of rolling a 6 on a die
+total_outcomes = 6
+probability = Fraction(favorable_outcomes, total_outcomes)
+print("Probability of rolling a 6:", float(probability))
+
+Visualizing Data:
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Histogram
+plt.hist(data, bins=5, edgecolor='black')
+plt.title('Histogram')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.show()
+
+# Box Plot
+sns.boxplot(data)
+plt.title('Box Plot')
+plt.show()
+
+# Scatter Plot
+x = np.arange(len(data))
+y = data
+plt.scatter(x, y)
+plt.title('Scatter Plot')
+plt.xlabel('Index')
+plt.ylabel('Value')
+plt.show()
+
+Identifying Bias in Datasets
+Objective: Learn how to identify and measure bias in datasets to ensure fair and unbiased AI models
+
+pip install pandas numpy matplotlib seaborn
+
+Import Libraries:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+Load the Dataset:
+df = pd.read_csv('loan_approval_data.csv')
+
+Inspect the Dataset:
+print(df.head())
+print(df.info())
+
+Analyze Demographic Distribution:
+gender_distribution = df['gender'].value_counts()
+race_distribution = df['race'].value_counts()
+
+print(gender_distribution)
+print(race_distribution)
+
+sns.countplot(x='gender', data=df)
+plt.show()
+
+sns.countplot(x='race', data=df)
+plt.show()
+
+Analyze Outcome Distribution:
+approval_by_gender = df.groupby('gender')['loan_approved'].mean()
+approval_by_race = df.groupby('race')['loan_approved'].mean()
+
+print(approval_by_gender)
+print(approval_by_race)
+
+sns.barplot(x='gender', y='loan_approved', data=df)
+plt.show()
+
+sns.barplot(x='race', y='loan_approved', data=df)
+plt.show()
+
+Calculate Bias Metrics:
+from sklearn.metrics import confusion_matrix
+
+def calculate_disparate_impact(group, target):
+    group_positive_rate = df[df[group] == 1][target].mean()
+    group_negative_rate = df[df[group] == 0][target].mean()
+    disparate_impact = group_positive_rate / group_negative_rate
+    return disparate_impact
+
+gender_disparate_impact = calculate_disparate_impact('gender', 'loan_approved')
+race_disparate_impact = calculate_disparate_impact('race', 'loan_approved')
+
+print(f'Gender Disparate Impact: {gender_disparate_impact}')
+print(f'Race Disparate Impact: {race_disparate_impact}')
+
+
+
 
