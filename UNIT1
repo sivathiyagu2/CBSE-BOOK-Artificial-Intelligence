@@ -384,5 +384,52 @@ print(f'Disparate Impact after Reweighing (Gender): {metric_transf.disparate_imp
 print(f'Disparate Impact after Reweighing (Race): {metric_transf.disparate_impact()}')
 
 
+Unit 3  Skill Improvement: Practical Implementation with NumPy
+Installation:
+pip install numpy
+
+Basic NumPy Operations:
+import numpy as np
+
+# Define matrices
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+
+# Addition
+C = A + B
+print("Addition:\n", C)
+
+# Subtraction
+D = A - B
+print("Subtraction:\n", D)
+
+# Multiplication
+E = np.dot(A, B)
+print("Multiplication:\n", E)
+
+# Transpose
+A_T = A.T
+print("Transpose:\n", A_T)
+
+Example Applications:
+
+Data Representation:
+
+# Representing a dataset with 3 samples and 2 features
+data = np.array([[1, 2], [3, 4], [5, 6]])
+print("Dataset:\n", data)
+
+Linear Transformation:
+# Applying a linear transformation
+transformation_matrix = np.array([[0, 1], [-1, 0]])  # 90-degree rotation matrix
+transformed_data = np.dot(data, transformation_matrix)
+print("Transformed Data:\n", transformed_data)
+
+Image Processing:
+# Assuming image is represented as a 2D matrix of pixel values
+image = np.array([[100, 150], [200, 250]])
+filter = np.array([[0, 1], [-1, 0]])  # Example filter
+processed_image = np.dot(image, filter)
+print("Processed Image:\n", processed_image)
 
 
