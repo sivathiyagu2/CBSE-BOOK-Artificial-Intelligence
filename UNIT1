@@ -256,3 +256,71 @@ sentence = "NLTK is a great library for NLP!"
 sentiment = sia.polarity_scores(sentence)
 print(sentiment)
 
+Practical Exercises
+Identifying Bias in Datasets
+Objective: Learn how to identify and measure bias in datasets to ensure fair and unbiased AI models.
+
+pip install pandas numpy matplotlib seaborn
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+Load the Dataset:
+
+For this example, we’ll use a hypothetical dataset that includes demographic information and outcomes (e.g., loan approval data):
+
+df = pd.read_csv('loan_approval_data.csv')
+
+Inspect the Dataset:
+print(df.head())
+print(df.info())
+
+Analyze Demographic Distribution:
+gender_distribution = df['gender'].value_counts()
+race_distribution = df['race'].value_counts()
+
+print(gender_distribution)
+print(race_distribution)
+
+sns.countplot(x='gender', data=df)
+plt.show()
+
+sns.countplot(x='race', data=df)
+plt.show()
+
+Analyze Outcome Distribution:
+
+Check the distribution of outcomes (e.g., loan approvals) across different demographic groups:
+approval_by_gender = df.groupby('gender')['loan_approved'].mean()
+approval_by_race = df.groupby('race')['loan_approved'].mean()
+
+print(approval_by_gender)
+print(approval_by_race)
+
+sns.barplot(x='gender', y='loan_approved', data=df)
+plt.show()
+
+sns.barplot(x='race', y='loan_approved', data=df)
+plt.show()
+
+Calculate Bias Metrics:
+
+Use fairness metrics to measure bias in the dataset:
+python
+
+from sklearn.metrics import confusion_matrix
+
+def calculate_disparate_impact(group, target):
+    group_positive_rate = df[df[group] == 1][target].mean()
+    group_negative_rate = df[df[group] == 0][target].mean()
+    disparate_impact = group_positive_rate / group_negative_rate
+    return disparate_impact
+
+gender_disparate_impact = calculate_disparate_impact('gender', 'loan_approved')
+race_disparate_impact = calculate_disparate_impact('race', 'loan_approved')
+
+print(f'Gender Disparate Impact: {gender_disparate_impact}')
+print(f'Race Disparate Impact: {race_disparate_impact}')
+
