@@ -953,6 +953,325 @@ race_disparate_impact = calculate_disparate_impact('race', 'loan_approved')
 
 print(f'Gender Disparate Impact: {gender_disparate_impact}')
 print(f'Race Disparate Impact: {race_disparate_impact}')
+8.Handson Activities
+Practical Exercises
+Identifying Bias in Datasets
+Objective: Learn how to identify and measure bias in datasets to ensure fair and unbiased AI models.
+Step by Step Guide:
+1. Set Up the Environment:
+    Install Python and necessary libraries:
+
+pip install pandas numpy matplotlib seaborn
+
+2. Import Libraries
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+3. Load the Dataset:
+    For this example, we’ll use a hypothetical dataset that includes demographic information and outcomes (e.g., loan approval data):
+
+df = pd.read_csv('loan_approval_data.csv')
+
+4. Inspect the Dataset:
+
+print(df.head())
+print(df.info())
+
+5. Analyse Demographic Distribution:
+    Check the distribution of different demographic groups (e.g., gender, race) in the dataset:
+
+gender_distribution = df['gender'].value_counts()
+race_distribution = df['race'].value_counts()
+
+print(gender_distribution)
+print(race_distribution)
+
+sns.countplot(x='gender', data=df)
+plt.show()
+
+sns.countplot(x='race', data=df)
+plt.show()
+
+Analyse Outcome Distribution:
+    Check the distribution of outcomes (e.g., loan approvals) across different demographic groups:
+
+gender_distribution = df['gender'].value_counts()
+race_distribution = df['race'].value_counts()
+
+print(gender_distribution)
+print(race_distribution)
+
+sns.countplot(x='gender', data=df)
+plt.show()
+
+sns.countplot(x='race', data=df)
+plt.show()
+
+
+7. Calculate Bias Metrics:
+    Use fairness metrics to measure bias in the dataset:
+
+
+from sklearn.metrics import confusion_matrix
+
+def calculate_disparate_impact(group, target):
+    group_positive_rate = df[df[group] == 1][target].mean()
+    group_negative_rate = df[df[group] == 0][target].mean()
+    disparate_impact = group_positive_rate / group_negative_rate
+    return disparate_impact
+
+gender_disparate_impact = calculate_disparate_impact('gender', 'loan_approved')
+race_disparate_impact = calculate_disparate_impact('race', 'loan_approved')
+
+print(f'Gender Disparate Impact: {gender_disparate_impact}')
+print(f'Race Disparate Impact: {race_disparate_impact}')
+
+Creating Fair AI Models
+Objective: Develop AI models that mitigate bias and ensure fair outcomes across different demographic groups.
+Step by Step Guide:
+1. Set Up the Environment:
+    Install Python and necessary libraries:
+
+
+pip install pandas numpy scikitlearn aif360
+
+2. Import Libraries:
+
+import pandas as pd
+   import numpy as np
+   from sklearn.model_selection import train_test_split
+   from sklearn.linear_model import LogisticRegression
+   from sklearn.metrics import accuracy_score, confusion_matrix
+   from aif360.datasets import BinaryLabelDataset
+   from aif360.metrics import BinaryLabelDatasetMetric
+   from aif360.algorithms.preprocessing import Reweighing
+
+3. Load and Preprocess the Dataset
+
+
+df = pd.read_csv('loan_approval_data.csv')
+df['gender'] = df['gender'].map({'male': 1, 'female': 0})
+df['race'] = df['race'].map({'white': 1, 'non_white': 0})
+
+X = df.drop('loan_approved', axis=1)
+y = df['loan_approved']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+4. Train a Baseline Model
+
+
+model = LogisticRegression()
+   model.fit(X_train, y_train)
+
+   y_pred = model.predict(X_test)
+   print(f'Accuracy: {accuracy_score(y_test, y_pred)}')
+   print(confusion_matrix(y_test, y_pred))
+
+5. Assess Bias in the Model
+
+
+test_dataset = BinaryLabelDataset(df=pd.concat([X_test, y_test], axis=1), label_names=['loan_approved'], protected_attribute_names=['gender', 'race'])
+metric = BinaryLabelDatasetMetric(test_dataset, privileged_groups=[{'gender': 1}, {'race': 1}], unprivileged_groups=[{'gender': 0}, {'race': 0}])
+
+print(f'Disparate Impact (Gender): {metric.disparate_impact()}')
+print(f'Disparate Impact (Race): {metric.disparate_impact()}')
+
+6. Mitigate Bias Using Reweighing
+
+
+RW = Reweighing(unprivileged_groups=[{'gender': 0}, {'race': 0}], privileged_groups=[{'gender': 1}, {'race': 1}])
+train_dataset = BinaryLabelDataset(df=pd.concat([X_train, y_train], axis=1), label_names=['loan_approved'], protected_attribute_names=['gender', 'race'])
+train_dataset_transf = RW.fit_transform(train_dataset)
+
+model.fit(train_dataset_transf.features, train_dataset_transf.labels.ravel())
+y_pred_transf = model.predict(X_test)
+
+print(f'Accuracy after Reweighing: {accuracy_score(y_test, y_pred_transf)}')
+print(confusion_matrix(y_test, y_pred_transf))
+
+test_dataset_pred_transf = test_dataset.copy(deepcopy=True)
+test_dataset_pred_transf.labels = y_pred_transf
+
+metric_transf = BinaryLabelDatasetMetric(test_dataset_pred_transf, privileged_groups=[{'gender': 1}, {'race': 1}], unprivileged_groups=[{'gender': 0}, {'race': 0}])
+print(f'Disparate Impact after Reweighing (Gender): {metric_transf.disparate_impact()}')
+print(f'Disparate Impact after Reweighing (Race): {metric_transf.disparate_impact()}')
+
+8. Handson Activities
+Creating Frequency Tables and Graphs
+Objective: Learn how to create frequency tables and corresponding graphs to summarize and visualize data.
+
+3. Creating Graphs:
+    Use bar graphs or pie charts to visualize the frequency table
+
+import matplotlib.pyplot as plt
+
+# Data
+fruits = ['Apple', 'Banana', 'Orange']
+frequency = [4, 3, 3]
+
+# Bar Graph
+plt.bar(fruits, frequency, color=['red', 'yellow', 'orange'])
+plt.xlabel('Fruit')
+plt.ylabel('Frequency')
+plt.title('Fruit Frequency')
+plt.show()
+
+# Pie Chart
+plt.pie(frequency, labels=fruits, colors=['red', 'yellow', 'orange'], autopct='%1.1f%%')
+plt.title('Fruit Frequency Distribution')
+plt.show()
+
+Calculating Statistical Measures (Mean, Median, Mode, Range, etc.)
+Objective: Calculate key statistical measures to summarize the central tendency and dispersion of a dataset.
+
+import numpy as np
+from scipy import stats
+data = [15, 18, 20, 22, 25, 25, 30]
+# Mean
+mean = np.mean(data)
+print(f"Mean: {mean}")
+# Median
+median = np.median(data)
+print(f"Median: {median}")
+# Mode
+mode = stats.mode(data)
+print(f"Mode: {mode.mode[0]}")
+# Range
+data_range = np.ptp(data)
+print(f"Range: {data_range}")
+# Variance
+variance = np.var(data)
+print(f"Variance: {variance}")
+# Standard Deviation
+std_deviation = np.std(data)
+print(f"Standard Deviation: {std_deviation}")
+
+Expected Output:
+
+Mean: 22.142857142857142
+Median: 22.0
+Mode: 25
+Range: 15
+Variance: 24.97959183673469
+Standard Deviation: 4.997958786252244
+
+Objective: Develop the ability to interpret and analyse data visualizations and statistical summaries.
+
+import matplotlib.pyplot as plt
+# Box Plot
+plt.boxplot(data)
+plt.title('Box Plot of Data')
+plt.show()
+# Histogram
+plt.hist(data, bins=5, color='blue', edgecolor='black')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.title('Histogram of Data')
+plt.show()
+# Scatter Plot (for paired data, e.g., height and weight)
+heights = [150, 160, 165, 170, 175]
+weights = [50, 60, 62, 70, 75]
+plt.scatter(heights, weights, color='green')
+plt.xlabel('Height (cm)')
+plt.ylabel('Weight (kg)')
+plt.title('Scatter Plot of Height vs Weight')
+plt.show()
+
+
+2. Plot Data Points:
+    
+Python Code to Create a Scatterplot:
+
+import matplotlib.pyplot as plt
+# Data
+hours_studied = [1, 2, 3, 4, 5]
+exam_scores = [50, 55, 65, 70, 75]
+# Create Scatterplot
+plt.scatter(hours_studied, exam_scores, color='blue')
+plt.xlabel('Hours Studied')
+plt.ylabel('Exam Scores')
+plt.title('Scatterplot of Hours Studied vs. Exam Scores')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
