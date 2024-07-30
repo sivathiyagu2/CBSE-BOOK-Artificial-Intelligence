@@ -1198,29 +1198,822 @@ plt.ylabel('Exam Scores')
 plt.title('Scatterplot of Hours Studied vs. Exam Scores')
 plt.show()
 
+Visual Representation
+Plotting the Line of Best Fit:
+Python Code 
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Data
+hours_studied = [1, 2, 3, 4, 5]
+exam_scores = [50, 55, 65, 70, 75]
+
+# Scatterplot
+plt.scatter(hours_studied, exam_scores, color='blue')
+
+# Line of Best Fit
+slope = 6.5
+intercept = 43.5
+x = np.array(hours_studied)
+y = slope * x + intercept
+plt.plot(x, y, color='red')
+
+plt.xlabel('Hours Studied')
+plt.ylabel('Exam Scores')
+plt.title('Scatterplot with Line of Best Fit')
+plt.show()
+
+2. Calculate Pearson’s r:
+
+Python Code to Calculate Pearson’s r:
+
+import numpy as np
+
+# Data
+hours_studied = np.array([2, 3, 5, 6, 8])
+exam_scores = np.array([56, 59, 70, 72, 80])
+
+# Calculate Pearson's r
+correlation_matrix = np.corrcoef(hours_studied, exam_scores)
+pearson_r = correlation_matrix[0, 1]
+print(f"Pearson's r: {pearson_r}")
+
+Expected Output:
+Pearson's r: 0.9877
+
+2. Build the Regression Model
+
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+# Reshape data
+hours_studied = hours_studied.reshape(-1, 1)
+exam_scores = exam_scores.reshape(-1, 1)
+# Create and fit the model
+model = LinearRegression()
+model.fit(hours_studied, exam_scores)
+# Predict exam scores
+predicted_scores = model.predict(hours_studied)
+# Plot data and regression line
+plt.scatter(hours_studied, exam_scores, color='blue', label='Actual Scores')
+plt.plot(hours_studied, predicted_scores, color='red', label='Regression Line')
+plt.xlabel('Hours Studied')
+plt.ylabel('Exam Scores')
+plt.title('Simple Linear Regression')
+plt.legend()
+plt.show()
+# Print slope and intercept
+slope = model.coef_[0][0]
+intercept = model.intercept_[0]
+print(f"Slope: {slope}, Intercept: {intercept}")
+
+Expected Output:
+Slope: 3.9286, Intercept: 48.8
+
+Objective: Evaluate the regression model's performance using various metrics and interpret the results.
+Steps:
+1. Calculate Evaluation Metrics:
+
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Calculate MSE
+mse = mean_squared_error(exam_scores, predicted_scores)
+rmse = np.sqrt(mse)
+r_squared = r2_score(exam_scores, predicted_scores)
+
+print(f"MSE: {mse}")
+print(f"RMSE: {rmse}")
+print(f"R²: {r_squared}")
+
+Expected Output:
+MSE: 4.96
+RMSE: 2.23
+R²: 0.9756
 
 
+Projects on Regression
+Applying Regression to Real world Datasets
+
+Python Code for EDA and Model Building
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+# Load dataset
+data = pd.read_csv('house_prices.csv')
+# EDA
+plt.scatter(data['Square_Footage'], data['Price'], color='blue')
+plt.xlabel('Square Footage')
+plt.ylabel('Price')
+plt.title('Square Footage vs. Price')
+plt.show()
+# Split data
+X = data[['Square_Footage']]
+y = data['Price']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Build and train the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+# Predict and evaluate
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+r_squared = r2_score(y_test, y_pred)
+print(f"MSE: {mse}")
+print(f"RMSE: {rmse}")
+print(f"R²: {r_squared}")
+
+2. Prediction:
+    
+Python Example:
+
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+# Sample data
+X = np.array([[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]])
+y = np.array([0, 0, 0, 1, 1])
+# Create and train the model
+model = LogisticRegression()
+model.fit(X, y)
+# Predict probabilities
+probabilities = model.predict_proba(X)
+print("Probabilities:\n", probabilities)
+# Predict classes
+predictions = model.predict(X)
+print("Predictions:\n", predictions)
+
+Examples of Clustering Problems
+Example:
+A retail company wants to segment its customers based on their purchasing behaviour to create targeted marketing campaigns.
+Python Example (KMeans Clustering)
+
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+# Sample data
+data = {
+    'Customer ID': [1, 2, 3, 4],
+    'Purchase Frequency': [10, 5, 15, 20],
+    'Average Purchase Value': [50, 100, 30, 20],
+    'Age': [25, 35, 28, 45],
+    'Income': [30000, 50000, 40000, 60000]
+}
+df = pd.DataFrame(data)
+# Features for clustering
+X = df[['Purchase Frequency', 'Average Purchase Value', 'Age', 'Income']]
+# K-Means Clustering
+kmeans = KMeans(n_clusters=2)
+kmeans.fit(X)
+df['Cluster'] = kmeans.labels_
+# Plotting
+plt.scatter(df['Purchase Frequency'], df['Average Purchase Value'], c=df['Cluster'], cmap='viridis')
+plt.xlabel('Purchase Frequency')
+plt.ylabel('Average Purchase Value')
+plt.title('Customer Segmentation')
+plt.show()
 
 
+Texture patterns
+Dataset:
+An image can be represented as a matrix of pixel values.
+
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+# Load image
+image = cv2.imread('image.jpg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+# Reshape the image to a 2D array of pixels
+pixels = image.reshape(-1, 3)
+# K-Means Clustering
+kmeans = KMeans(n_clusters=3)
+kmeans.fit(pixels)
+segmented_img = kmeans.cluster_centers_[kmeans.labels_]
+segmented_img = segmented_img.reshape(image.shape).astype(np.uint8)
+# Plotting
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.title('Original Image')
+plt.imshow(image)
+plt.subplot(1, 2, 2)
+plt.title('Segmented Image')
+plt.imshow(segmented_img)
+plt.show()
+
+Algorithm:
+1. Initialization: Select K initial centroids randomly from the dataset.
+2. Assignment: Assign each data point to the nearest centroid, forming K clusters.
+3. Update: Recalculate the centroids by computing the mean of all data points in each cluster.
+4. Repeat: Repeat the assignment and update steps until the centroids no longer change or the maximum number of iterations is reached.
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# Sample data
+X = np.array([[1, 2], [1, 4], [1, 0],
+              [4, 2], [4, 4], [4, 0]])
+
+# K-Means Clustering
+kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
+
+# Plotting
+plt.scatter(X[:, 0], X[:, 1], c=kmeans.labels_, cmap='viridis')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=200, c='red', marker='X')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('K-Means Clustering')
+plt.show()
+
+1. Elbow Method:
+    Plot the sum of squared distances (inertia) against the number of clusters.
+    Look for an "elbow" point where the rate of decrease slows down, indicating the optimal K
 
 
+inertia = []
+K = range(1, 10)
+for k in K:
+    kmeans = KMeans(n_clusters=k, random_state=0).fit(X)
+    inertia.append(kmeans.inertia_)
+
+plt.plot(K, inertia, 'bx-')
+plt.xlabel('Number of clusters (K)')
+plt.ylabel('Inertia')
+plt.title('Elbow Method for Optimal K')
+plt.show()
+
+2. Silhouette Score:
+    Measures how similar a data point is to its own cluster compared to other clusters.
+    Silhouette scores range from 1 to 1, with higher values indicating better clustering.
 
 
+from sklearn.metrics import silhouette_score
+
+silhouette_scores = []
+K = range(2, 10)
+for k in K:
+    kmeans = KMeans(n_clusters=k, random_state=0).fit(X)
+    score = silhouette_score(X, kmeans.labels_)
+    silhouette_scores.append(score)
+
+plt.plot(K, silhouette_scores, 'bx-')
+plt.xlabel('Number of clusters (K)')
+plt.ylabel('Silhouette Score')
+plt.title('Silhouette Score for Optimal K')
+plt.show()
+
+2. Divisive (Top Down) Approach:
+    Start with all data points in a single cluster.
+    Recursively split clusters into smaller clusters until each data point is its own cluster or a desired number of clusters is reached.
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.cluster.hierarchy import dendrogram, linkage
+
+# Sample data
+X = np.array([[1, 2], [1, 4], [1, 0],
+              [4, 2], [4, 4], [4, 0]])
+
+# Hierarchical Clustering
+Z = linkage(X, 'ward')
+
+# Plotting Dendrogram
+plt.figure()
+dendrogram(Z)
+plt.xlabel('Data Points')
+plt.ylabel('Distance')
+plt.title('Hierarchical Clustering Dendrogram')
+plt.show()
+
+Python Example:
+
+from sklearn.metrics import silhouette_score
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# Sample data
+X = np.array([[1, 2], [1, 4], [1, 0],
+              [4, 2], [4, 4], [4, 0]])
+
+# K-Means Clustering
+kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
+labels = kmeans.labels_
+
+# Silhouette Score
+score = silhouette_score(X, labels)
+print(f'Silhouette Score: {score}')
+
+Elbow Method:
+Steps:
+1. Compute KMeans clustering for different values of K (e.g., 1 to 10).
+2. Plot the inertia for each K.
+3. Identify the point where the curve bends (elbow point).
+Python Example:
+# Elbow Method
+inertia = []
+K = range(1, 10)
+for k in K:
+    kmeans = KMeans(n_clusters=k, random_state=0).fit(X)
+    inertia.append(kmeans.inertia_)
+
+plt.plot(K, inertia, 'bx-')
+plt.xlabel('Number of clusters (K)')
+plt.ylabel('Inertia')
+plt.title('Elbow Method for Optimal K')
+plt.show()
+
+Practical Exercises
+ Building and Evaluating a Binary Classification Model
+Objective: Build and evaluate a binary classification model using logistic regression.
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+# Load dataset (example: breast cancer dataset from sklearn)
+from sklearn.datasets import load_breast_cancer
+data = load_breast_cancer()
+X = data.data
+y = data.target
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Train logistic regression model
+model = LogisticRegression(max_iter=10000)
+model.fit(X_train, y_train)
+# Predict on test data
+y_pred = model.predict(X_test)
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+print(f'Accuracy: {accuracy}')
+print(f'Precision: {precision}')
+print(f'Recall: {recall}')
+print(f'F1 Score: {f1}')
 
 
+Implementing Logistic Regression
+Objective: Implement logistic regression and interpret the model coefficients.
+Python Example:
+
+# Model coefficients
+coefficients = model.coef_[0]
+intercept = model.intercept_[0]
+
+print("Model coefficients:", coefficients)
+print("Model intercept:", intercept)
+
+# Logistic regression equation
+print(f'Logistic regression equation: logit(P) = {intercept} + {coefficients[0]}*X1 + {coefficients[1]}*X2 + ... + {coefficients[-1]}*Xn')
 
 
+Constructing and Analysing a Confusion Matrix
+Objective: Construct and analyse a confusion matrix to evaluate the performance of a binary classification model.
+Python Example:
 
 
+# Confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+
+print("Confusion Matrix:")
+print(cm)
+
+# Plot confusion matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+plt.show()
 
 
+Python Example:
+
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+# Sample data (example: iris dataset from sklearn)
+from sklearn.datasets import load_iris
+iris = load_iris()
+X = iris.data
+# K-Means clustering
+kmeans = KMeans(n_clusters=3, random_state=42)
+kmeans.fit(X)
+labels = kmeans.labels_
+centroids = kmeans.cluster_centers_
+# Plotting
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis')
+plt.scatter(centroids[:, 0], centroids[:, 1], s=300, c='red', marker='X')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('K-Means Clustering')
+plt.show()
+# Silhouette Score
+from sklearn.metrics import silhouette_score
+score = silhouette_score(X, labels)
+print(f'Silhouette Score: {score}')
+
+Projects on Classification and Clustering
+Developing a Classification Model for a Real world Dataset
+
+# Example using a customer churn dataset (you would replace this with the actual dataset you're using)
+import pandas as pd
+# Load dataset
+data = pd.read_csv('customer_churn.csv')
+# Preprocess data
+# (This step would include handling missing values, encoding categorical variables, standardizing features, etc.)
+# Split data
+from sklearn.model_selection import train_test_split
+X = data.drop('Churn', axis=1)
+y = data['Churn']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Train logistic regression model
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression(max_iter=10000)
+model.fit(X_train, y_train)
+# Predict on test data
+y_pred = model.predict(X_test)
+# Evaluate the model
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+print(f'Accuracy: {accuracy}')
+print(f'Precision: {precision}')
+print(f'Recall: {recall}')
+print(f'F1 Score: {f1}')
+print("Confusion Matrix:")
+print(cm)
+# Plot confusion matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+plt.show()
+
+Applying Clustering to a Dataset and Analysing the Results
+Objective: Apply clustering to a real world dataset and analyse the results.
+
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+# Load dataset
+data = pd.read_csv('customer_segmentation.csv')
+# Preprocess data  # (This step would include handling missing values, standardizing features, etc.)
+# K-Means clustering
+kmeans = KMeans(n_clusters=3, random_state=42)
+kmeans.fit(data)
+labels = kmeans.labels_
+centroids = kmeans.cluster_centers_
+# Plotting
+plt.scatter(data['Feature1'], data['Feature2'], c=labels, cmap='viridis')
+plt.scatter(centroids[:, 0], centroids[:, 1], s=300, c='red', marker='X')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('K-Means Clustering')
+plt.show()
+# Silhouette Score
+from sklearn.metrics import silhouette_score
+score = silhouette_score(data, labels)
+print(f'Silhouette Score: {score}')
+# Elbow Method
+inertia = []
+K = range(1, 10)
+for k in K:
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(data)
+    inertia.append(kmeans.inertia_)
+plt.plot(K, inertia, 'bx-')
+plt.xlabel('Number of clusters (K)')
+plt.ylabel('Inertia')
+plt.title('Elbow Method for Optimal K')
+plt.show()
+
+3. Feature Analysis: Evaluate features to identify potential sources of bias. Ensure that sensitive attributes (e.g., race, gender) are not unfairly influencing the outcomes.
+Python Example:
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load dataset
+data = pd.read_csv('dataset.csv')
+
+# Descriptive statistics
+print(data.groupby('gender')['income'].describe())
+
+# Visualization
+sns.histplot(data, x='income', hue='gender', multiple='stack')
+plt.title('Income Distribution by Gender')
+plt.show()
+
+# Correlation analysis
+correlation_matrix = data.corr()
+print(correlation_matrix['income'])
 
 
+Evaluating Model Outputs
+Definition:
+Evaluating model outputs involves assessing the predictions made by AI models to ensure they are fair and unbiased across different groups.
 
 
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+import numpy as np
+
+# Load test data and predictions
+y_test = np.array([0, 1, 1, 0, 1])
+y_pred = np.array([0, 1, 0, 0, 1])
+sensitive_attribute = np.array(['male', 'female', 'female', 'male', 'female'])
+
+# Evaluate model performance metrics by group
+for group in np.unique(sensitive_attribute):
+    indices = np.where(sensitive_attribute == group)
+    print(f'Performance for {group}:')
+    print('Confusion Matrix:')
+    print(confusion_matrix(y_test[indices], y_pred[indices]))
+    print('Precision:', precision_score(y_test[indices], y_pred[indices]))
+    print('Recall:', recall_score(y_test[indices], y_pred[indices]))
+
+# Calculate fairness metrics (e.g., demographic parity)
+# Note: Actual fairness metric calculations would require additional steps and definitions
+
+Handson Examples
+Identifying Bias in Datasets
+Example 1: Gender Bias in Income Data
+Python Example:
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load dataset
+data = pd.read_csv('income_data.csv')
+
+# Descriptive statistics
+print(data.groupby('gender')['income'].describe())
+
+# Visualization
+sns.boxplot(x='gender', y='income', data=data)
+plt.title('Income Distribution by Gender')
+plt.show()
+
+Example 2: Bias in a Predictive Policing System
+Python Example:
+import pandas as pd
+from sklearn.metrics import confusion_matrix, accuracy_score
+# Load dataset
+data = pd.read_csv('crime_data.csv')
+y_true = data['actual_crime']
+y_pred = data['predicted_crime']
+demographic_group = data['demographic']
+# Evaluate performance by demographic group
+for group in data['demographic'].unique():
+    indices = data[data['demographic'] == group].index
+    print(f'Performance for {group}:')
+    print('Confusion Matrix:')
+    print(confusion_matrix(y_true[indices], y_pred[indices]))
+    print('Accuracy:', accuracy_score(y_true[indices], y_pred[indices]))
+# Analyze bias
+# Example: Check if one demographic group has significantly higher false positive rates
+
+Python Example:
+
+from sklearn.utils import resample
+
+# Example of under-sampling
+majority_class = data[data['class'] == 'majority']
+minority_class = data[data['class'] == 'minority']
+
+# Down-sample majority class
+majority_downsampled = resample(majority_class, 
+                                replace=False, 
+                                n_samples=len(minority_class), 
+                                random_state=123)
+
+# Combine minority class with down-sampled majority class
+data_balanced = pd.concat([majority_downsampled, minority_class])
+
+# Check new class distribution
+print(data_balanced['class'].value_counts())
 
 
+2. Re-weighting: Assigning different weights to samples to correct imbalances.
+    Increase the weights of underrepresented groups during model training.
+Python Example:
 
+# Example using scikit-learn's LogisticRegression with class_weight parameter
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression(class_weight='balanced')
+model.fit(X_train, y_train)
+
+3. Feature Engineering: Removing or modifying biased features that could lead to unfair outcomes.
+    Exclude sensitive attributes like race, gender, etc., from the model input.
+Python Example:
+
+# Drop sensitive attribute
+X = data.drop(columns=['sensitive_attribute'])
+
+4. Data Anonymization: Removing personally identifiable information (PII) to prevent discrimination based on identity.
+Python Example:
+
+# Example of anonymizing data by removing PII
+data_anonymized = data.drop(columns=['name', 'address', 'SSN'])
+
+Algorithmic Fairness
+.
+Python Example:
+
+from fairlearn.reductions import ExponentiatedGradient, EqualizedOdds
+from fairlearn.metrics import demographic_parity_difference
+
+# Example of using Fairlearn to apply equalized odds constraint
+constraint = EqualizedOdds()
+model = ExponentiatedGradient(base_estimator, constraints=constraint)
+model.fit(X_train, y_train, sensitive_features=sensitive_attribute)
+
+2. Fair Algorithms: Using algorithms specifically designed to be fairer.
+    Fair decision trees, fair kmeans clustering, etc.
+Python Example:
+
+from fairlearn.postprocessing import ThresholdOptimizer
+
+# Example of using Fairlearn's ThresholdOptimizer
+postproc = ThresholdOptimizer(estimator=model, constraints="demographic_parity", prefit=True)
+postproc.fit(X_train, y_train, sensitive_features=sensitive_attribute)
+
+3. Adversarial Debiasing: Using adversarial networks to reduce bias.
+    Train an adversarial network to identify and remove bias inducing features.
+Python Example:
+# Example: Setup adversarial debiasing (pseudo-code)
+# 1. Train a model to predict the target variable.
+# 2. Train an adversarial model to predict the sensitive attribute from the residuals.
+# 3. Adjust the original model to minimize both the prediction error and the adversary's ability to detect the sensitive attribute.
+
+Inclusive AI Design
+Definition:
+Inclusive AI design involves involving diverse teams and stakeholders in the AI development process to ensure the system is fair and considers a wide range of perspectives and needs.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.utils import resample
+from fairlearn.reductions import ExponentiatedGradient, EqualizedOdds
+# Load dataset
+data = pd.read_csv('dataset.csv')
+# Balance the dataset
+majority_class = data[data['class'] == 'majority']
+minority_class = data[data['class'] == 'minority']
+majority_downsampled = resample(majority_class, replace=False, n_samples=len(minority_class), random_state=123)
+data_balanced = pd.concat([majority_downsampled, minority_class])
+# Remove sensitive attribute
+X = data_balanced.drop(columns=['sensitive_attribute'])
+y = data_balanced['class']
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Train a fair algorithm
+base_estimator = LogisticRegression()
+constraint = EqualizedOdds()
+model = ExponentiatedGradient(base_estimator, constraints=constraint)
+model.fit(X_train, y_train, sensitive_features=data_balanced['sensitive_attribute'])
+
+7. Handson Activities
+Practical Exercises
+Detecting and Analysing Bias in Sample Datasets
+Python Example:
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+
+# Load sample dataset (example: adult income dataset)
+data = pd.read_csv('adult.csv')
+
+# Inspect the dataset
+print(data.head())
+print(data.info())
+
+# Descriptive statistics
+print(data.groupby('sex')['income'].describe())
+
+# Visualization of income distribution by gender
+sns.countplot(x='income', hue='sex', data=data)
+plt.title('Income Distribution by Gender')
+plt.show()
+
+# Correlation analysis
+# Encode categorical variables
+label_enc = LabelEncoder()
+data['sex'] = label_enc.fit_transform(data['sex'])
+data['income'] = label_enc.fit_transform(data['income'])
+
+correlation_matrix = data.corr()
+print(correlation_matrix['income'])
+
+Implementing Bias Mitigation Strategies in AI Models
+Objective: Implement various bias mitigation strategies, such as resampling, reweighting, and fairness constraints in AI models.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.utils import resample
+from fairlearn.reductions import ExponentiatedGradient, EqualizedOdds
+# Load and preprocess dataset (example: adult income dataset)
+data = pd.read_csv('adult.csv')
+data['sex'] = label_enc.fit_transform(data['sex'])
+data['income'] = label_enc.fit_transform(data['income'])
+# Balance the dataset
+majority_class = data[data['income'] == 0]
+minority_class = data[data['income'] == 1]
+majority_downsampled = resample(majority_class, replace=False, n_samples=len(minority_class), random_state=123)
+data_balanced = pd.concat([majority_downsampled, minority_class])
+# Split data
+X = data_balanced.drop(columns=['income'])
+y = data_balanced['income']
+sensitive_attribute = data_balanced['sex']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Train a fair algorithm
+base_estimator = LogisticRegression(max_iter=10000)
+constraint = EqualizedOdds()
+model = ExponentiatedGradient(base_estimator, constraints=constraint)
+model.fit(X_train, y_train, sensitive_features=sensitive_attribute)
+# Evaluate the model
+y_pred = model.predict(X_test)
+from sklearn.metrics import accuracy_score, confusion_matrix
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+Projects on Ethical AI
+Developing an AI Model with Bias Detection and Mitigation
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.utils import resample
+from fairlearn.reductions import ExponentiatedGradient, EqualizedOdds
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Load dataset (example: credit scoring dataset)
+data = pd.read_csv('credit_data.csv')
+# Detect bias
+print(data.groupby('gender')['loan_approved'].describe())
+sns.countplot(x='loan_approved', hue='gender', data=data)
+plt.title('Loan Approval by Gender')
+plt.show()
+
+
+# Preprocess data
+data['gender'] = label_enc.fit_transform(data['gender'])
+data['loan_approved'] = label_enc.fit_transform(data['loan_approved'])
+# Balance the dataset
+majority_class = data[data['loan_approved'] == 0]
+minority_class = data[data['loan_approved'] == 1]
+majority_downsampled = resample(majority_class, replace=False, n_samples=len(minority_class), random_state=123)
+data_balanced = pd.concat([majority_downsampled, minority_class])
+# Split data
+X = data_balanced.drop(columns=['loan_approved'])
+y = data_balanced['loan_approved']
+sensitive_attribute = data_balanced['gender']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Train a fair algorithm
+base_estimator = LogisticRegression(max_iter=10000)
+constraint = EqualizedOdds()
+model = ExponentiatedGradient(base_estimator, constraints=constraint)
+model.fit(X_train, y_train, sensitive_features=sensitive_attribute)
+# Evaluate the model
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+Presenting Case Studies on AI Bias and Its Mitigation
+Objective: Research and present case studies on AI bias, its impacts, and the mitigation strategies implemented to address it.
+
+# Case Study Presentation: Amazon's AI Recruiting Tool
+## Introduction
+- Overview of Amazon's AI recruiting tool and its purpose.
+## Bias Source and Impact
+- Historical data reflecting gender bias.
+- Discriminatory hiring practices against female candidates.
+## Mitigation Strategies
+- Amazon discontinued the tool.
+- Increased human oversight in the hiring process.
+## Outcomes and Lessons Learned
+- Importance of representative training data.
+- Need for continuous monitoring and evaluation.
+## Conclusion and Recommendations
+- Regular audits of AI systems for bias.
+- Diverse teams in AI development to ensure different perspectives are considered.
 
 
 
